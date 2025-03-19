@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:phobia_app/screens/relax_screen.dart';
 import 'exposure_screen.dart';
 import 'journal_screen.dart';
-import 'relax_screen.dart';
 import 'info_screen.dart';
 // Dodaj inne ekrany w razie potrzeby
 
@@ -83,9 +82,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildMenuButton("Exposure", Icons.bug_report, const ExposureScreen()),
-              _buildMenuButton("Journal", Icons.book, JournalScreen()),
-              _buildMenuButton("Relax", Icons.self_improvement, const RelaxScreen()),
+              _buildMenuButton("Ekspozycja", Icons.bug_report, const ExposureScreen()),
+              _buildMenuButton("Dizennik", Icons.book, JournalScreen()),
+              _buildMenuButton("Relaks", Icons.self_improvement, const RelaxScreen()),
               _buildMenuButton("Info", Icons.info_outline, const InfoScreen()),
             ],
           ),
