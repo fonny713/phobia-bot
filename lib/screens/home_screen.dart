@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:phobia_app/theme_provider.dart';
 import 'package:phobia_app/screens/relax_screen.dart';
 import 'exposure_screen.dart';
 import 'journal_screen.dart';
 import 'info_screen.dart';
-// Dodaj inne ekrany w razie potrzeby
+import 'exposure_levels_screen.dart';
+import 'exposure_levels_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -44,11 +47,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         child: ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
-            backgroundColor: const Color(0xFFC6E1FD), // stonowany szary-niebieski
+            backgroundColor: const Color(0xFFC6E1FD),
             minimumSize: const Size.fromHeight(60),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          icon: Icon(icon, size: 24, color:Colors.white),
+          icon: Icon(icon, size: 24, color: Colors.white),
           label: Text(text, style: const TextStyle(fontSize: 18)),
           onPressed: () => Navigator.push(
             context,
@@ -61,19 +64,37 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
+
     return Scaffold(
-      backgroundColor: const Color(0xFF8AA8FF),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF8AA8FF),
-        title: const Text("Menu",
-        style: TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-          fontFamily: 'Monsterrat',
-        ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).primaryColor,
+        title: const Text(
+          "Menu",
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontFamily: 'Montserrat',
+          ),
         ),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: IconButton(
+              icon: Icon(
+                isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                themeProvider.toggleTheme();
+              },
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -82,15 +103,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildMenuButton("Ekspozycja", Icons.bug_report, const ExposureScreen()),
-              _buildMenuButton("Dizennik", Icons.book, JournalScreen()),
+              _buildMenuButton("Ekspozycja", Icons.bug_report, const ExposureLevelsScreen()),
+              _buildMenuButton("Dziennik", Icons.book, JournalScreen()),
               _buildMenuButton("Relaks", Icons.self_improvement, const RelaxScreen()),
               _buildMenuButton("Info", Icons.info_outline, const InfoScreen()),
             ],
           ),
         ),
       ),
-
     );
   }
 }
